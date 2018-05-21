@@ -1,15 +1,15 @@
 
   -B- Array with mode:0(All numbers are created by random)
 
-1000  0.000000
-2000  0.015000
-3000  0.063000
+1000  0.015000
+2000  0.016000
+3000  0.047000
 
   -B- Array with mode:1(All numbers are created and already sorted)
 
 1000  0.000000
 2000  0.000000
-3000  0.015000
+3000  0.000000
 
   -B- Array with mode:2(All numbers can be only 0,1 or 2)
 

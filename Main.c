@@ -14,12 +14,14 @@ void ShellSortFunction(int * Array, int n);
 void SelectionSortFunction(int * Array, int n);
 void QuickSortFunction(int * Array, int n);
 void BubbleSortFunction(int * Array, int n);
+void BubbleSortFlagFunction(int * Array, int n);
 
 FILE *InsertionSort;
 FILE *ShellSort;
 FILE *QuickSort;
 FILE *SelectionSort;
 FILE *BubbleSort;
+FILE *BubbleSortFlag;
 
 int main(void)
 {
@@ -28,6 +30,7 @@ int main(void)
 	double timeEnd;
 
 	srand((unsigned)time(NULL));
+
 
 	printf("[*] Enter start number:");scanf("%d",&startPoint);
 	printf("[*] Enter end number:");scanf("%d",&endPoint);
@@ -38,8 +41,9 @@ int main(void)
 	SelectionSort = fopen("Files/SelectionSort.txt","w");//ModeOfSort must be 2
 	QuickSort = fopen("Files/QuickSort.txt","w");//ModeOfSort must be 3
 	BubbleSort = fopen("Files/BubbleSort.txt","w");//ModeOfSort must be 4
+	BubbleSortFlag = fopen("Files/BubbleSortFlag.txt","w");//ModeOfSort must be 5
 
-	while(modeOfSort <= 4)//Count of type sorts
+	while(modeOfSort <= 5)//Count of type sorts
 	{
 		
 		printf("Mode of sotr:%d\n",modeOfSort);
@@ -74,6 +78,7 @@ int main(void)
 			case 2:fclose(SelectionSort);break;
 			case 3:fclose(QuickSort);break;
 			case 4:fclose(BubbleSort);break;
+			case 5:fclose(BubbleSortFlag);break;
 		}
 		modeOfSort++;
 	}
@@ -124,6 +129,14 @@ void writeModeInfAboutArrayToFile(int modeOfSort, int argArray)
 				case 2:fprintf(BubbleSort,"\n  -B- Array with mode:%d(All numbers can be only 0,1 or 2)\n\n",argArray);break;
 			}
 		break;
+		case 5:
+			switch(argArray)
+			{
+				case 0:fprintf(BubbleSortFlag,"\n  -B- Array with mode:%d(All numbers are created by random)\n\n",argArray);break;
+				case 1:fprintf(BubbleSortFlag,"\n  -B- Array with mode:%d(All numbers are created and already sorted)\n\n",argArray);break;
+				case 2:fprintf(BubbleSortFlag,"\n  -B- Array with mode:%d(All numbers can be only 0,1 or 2)\n\n",argArray);break;
+			}
+		break;
 	}		
 }
 
@@ -157,6 +170,10 @@ void writeToFile(int modeOfSort, int argArray,int n, double time)
 		case 4:
 			fprintf(BubbleSort, "%d  %f\n",n,time);
 		break;
+
+		case 5:
+			fprintf(BubbleSortFlag, "%d  %f\n",n,time);
+		break;
 	}
 }
 
@@ -168,7 +185,7 @@ void generationNumber(int * Array, int n,char argArray)
 		case 0:
 			for(int i = 0; i < n; i++)
 			{
-				Array[i] = rand()%1000;
+				Array[i] = rand()*rand();
 			}
 		break;
 
@@ -217,6 +234,10 @@ void Executing(int *mass, int n, int modeOfSort)
 
 		case 4:
 			BubbleSortFunction(mass,n);
+		break;
+
+		case 5:
+			BubbleSortFlagFunction(mass,n);
 		break;
 
 		default:
@@ -373,6 +394,23 @@ void BubbleSortFunction(int * Array, int n)
               swap(&Array[j],&Array[j+1]);
              }
          
+}
+
+void BubbleSortFlagFunction(int * Array, int n)
+{
+   int i, j;
+   int flag = 1;
+   for (i = 0; i < n-1 && flag; i++)
+   {
+   	   // Last i elements are already in place
+   	   flag = 0;   
+       for (j = 0; j < n-i-1; j++) 
+           if (Array[j] > Array[j+1])
+             {
+              swap(&Array[j],&Array[j+1]);
+              flag = 1;
+             }
+   }      
 }
 
 void printArray(int * Array, int n)
